@@ -20,3 +20,47 @@ Quy tac
 ===
 
 //*[@id="logo"]
+
+Parent node
+
+nodecha//nodecon
+
+sử dụng hàm ko dùng @ phía trước
+text() ; contains() ; string() ; last() ; starts-with() ..
+
+//apple[contains(@class,'small')]
+
+//plate|//bento  -- elements. You can combine any selectors this way, and you can specify more than two.
+
+//plate/*  - - This will select all elements inside of A.
+
+
+//plate/following-sibling::apple
+
+//A/following-sibling::B:
+This selects all B elements that directly follow A. Elements that follow one another are called siblings. They're on the same level, or depth.
+
+In the HTML markup for this level, elements that have the same indentation are siblings.
+
+(//pickle)[3]
+
+
+//orange*[last()]
+
+(//div)[last()] selects the last <div> element.
+//div/*[last()] selects all the last elements within <div> elements.
+
+(//apple)[last()]|(//orange)[last()]
+
+//*[@attribute]: Attributes appear inside the opening tag of an element, like this: span attribute="value". An attribute does not always have a value, it can be blank!
+
+//A[@attribute]: Combine the attribute selector with another selector (like the tag name selector) by adding it to the end.
+
+//*[@for='Vitaly']
+
+//*[starts-with(@for,"Sa")]
+
+//*[substring(@for,string-length(@for) - string-length('ato') + 1) = 'ato'] ; Attribute Ends With Selector
+
+Select all elements with an attribute value that ends with specific characters.
+The 'ends-with' function is part of xpath 2.0 but browsers generally only support 1.0
