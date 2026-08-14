@@ -1,0 +1,22 @@
+page.getByText() trong Playwright Java dùng để tìm element dựa trên text hiển thị trên giao diện.
+Vì getByRole() thể hiện rõ bạn đang tìm button, còn getByText() chỉ quan tâm đến text.
+
+page.getByLabel() trong Playwright Java dùng để tìm các ô nhập liệu dựa trên <label> liên kết với input.
+Đây là locator rất tốt cho form vì nó gần với cách người dùng nhìn thấy giao diện.
+
+Cú pháp chuẩn
+
+//tagname[@att='']
+
+//*[@id = ''] -- suggest bat ky the nao
+
+//*[@id="input-firstname"]
+
+Quy tac
+1. uu tien id, class , attName
+2. Duy nhat tại page
+3. Uu tien co nghia
+
+===
+
+//*[@id="logo"]
