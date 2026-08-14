@@ -64,3 +64,8 @@ In the HTML markup for this level, elements that have the same indentation are s
 
 Select all elements with an attribute value that ends with specific characters.
 The 'ends-with' function is part of xpath 2.0 but browsers generally only support 1.0
+
+
+===================
+page.locator("xpath=//*[contains(text(),'Hồ sơ cá nhân')]");
+page.locator("xpath=//*[text()='Hồ sơ cá nhân']");
