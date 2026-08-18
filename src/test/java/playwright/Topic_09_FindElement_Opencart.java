@@ -122,12 +122,11 @@ public class Topic_09_FindElement_Opencart {
         page.locator("//footer//p").textContent();
     }
     @Test
-    public void Test_locator() throws InterruptedException {
+    public void Test_locator() {
         page.navigate("https://opencart.abstracta.us/index.php?route=account/register");
 
         String text = page.locator("//div[@id='content']//h1").textContent();
         System.out.println(text);
-
 
     }
     @AfterClass
