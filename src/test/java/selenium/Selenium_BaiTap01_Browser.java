@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.Objects;
 
 public class Selenium_BaiTap01_Browser {
     WebDriver driver;
@@ -53,7 +54,13 @@ public class Selenium_BaiTap01_Browser {
         //forward
         driver.navigate().forward();
         Assert.assertEquals(driver.getTitle(),"Create New Customer Account");
-
+    }
+    @Test
+    public void TC_04_getPageSourceCode() {
+        driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
+        Assert.assertTrue(Objects.requireNonNull(driver.getPageSource()).contains("My Account"));
+        driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
+        Assert.assertTrue(Objects.requireNonNull(driver.getPageSource()).contains("Create New Customer Account"));
     }
     @AfterClass
     void close() {
