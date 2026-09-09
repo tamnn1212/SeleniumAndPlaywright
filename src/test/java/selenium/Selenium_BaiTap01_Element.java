@@ -1,7 +1,6 @@
 package selenium;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -61,7 +60,7 @@ public class Selenium_BaiTap01_Element {
         if (!disabledPass.isEnabled()) {
             System.out.println( "Element is not enabled");
         };
-        WebElement radioButtonDisabled = driver.findElement(By.xpath("//label[text()='Radio button is disabled']"));
+        WebElement radioButtonDisabled = driver.findElement(By.xpath("//input[@name='user_interest' and @value='check-disbaled']"));
         if (!radioButtonDisabled.isEnabled()) {
             System.out.println("Element Radio is not enabled");
         }
@@ -75,14 +74,23 @@ public class Selenium_BaiTap01_Element {
     @Test
     public void TC_03_isSelected() {
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
-
-    }
-    @Test
-    public void TC_04_getPageSourceCode() {
-        driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
-        Assert.assertTrue(Objects.requireNonNull(driver.getPageSource()).contains("My Account"));
-        driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
-        Assert.assertTrue(Objects.requireNonNull(driver.getPageSource()).contains("Create New Customer Account"));
+        // Click chọn age (under 18)
+        WebElement inputUnder18 = driver.findElement(By.cssSelector("input#under_18"));
+        inputUnder18.click();
+        WebElement inputJava = driver.findElement(By.cssSelector("input#java"));
+        inputJava.click();
+        if (inputUnder18.isSelected() && inputJava.isSelected()) {
+            System.out.println("Element is selected");
+        } else {
+            System.out.println("Element is de-selected");
+        }
+        //Bo chon
+        inputJava.click();
+        if (inputJava.isSelected()) {
+            System.out.println("Element is selected");
+        } else {
+            System.out.println("Element is de-selected");
+        }
     }
     @AfterClass
     void close() {
