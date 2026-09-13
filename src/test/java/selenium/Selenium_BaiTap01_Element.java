@@ -24,7 +24,7 @@ public class Selenium_BaiTap01_Element {
     @Test
     public void TC_01_VerifyIsDisplay() {
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
-        WebElement inputEmail = driver.findElement(By.xpath("//input[@id='email']"));
+        WebElement inputEmail = driver.findElement(By.xpath("//input[@id='myAcc']"));
         Assert.assertTrue(inputEmail.isDisplayed());
         driver.findElement(By.xpath("//label[text()='Under 18']")).isDisplayed();
         WebElement edu = driver.findElement(By.xpath("//textarea[@id='edu']"));
@@ -43,7 +43,7 @@ public class Selenium_BaiTap01_Element {
     @Test
     public void TC_02_IsEnabled() {
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
-        WebElement inputEmail = driver.findElement(By.xpath("//input[@id='email']")); inputEmail.isEnabled();
+        WebElement inputEmail = driver.findElement(By.xpath("//input[@id='myAcc']")); inputEmail.isEnabled();
         driver.findElement(By.xpath("//label[text()='Under 18']")).isEnabled();
         WebElement edu = driver.findElement(By.xpath("//textarea[@id='edu']")); edu.isEnabled();
 
