@@ -1,4 +1,4 @@
-public class Topic_03_Keyword  extends Computer
+public abstract class Topic_03_Keyword  extends Computer
 // ke thua
     {
         public void showMainName() {

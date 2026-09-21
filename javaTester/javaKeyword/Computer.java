@@ -1,4 +1,4 @@
-public class Computer {
+public abstract class Computer {
         // bien =  variable
                  // bien non-static, static, final, toan cuc, cuc bo
             // Pham vi truy cap: public, protected, default , private
@@ -33,7 +33,7 @@ public class Computer {
         }
         // ham final // ham final k the override
         //  Tinh abstraction  (truu tuong)
-        final void printAddress() {
+        void printAddress() {
 
         }
         // ham abstract // bat buoc cac lop con phai viet lai
