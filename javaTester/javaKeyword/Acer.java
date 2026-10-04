@@ -1,9 +1,7 @@
-public class Acer extends Computer implements Person,Room{
-    // Ko the ghi de ham final
-    public void printAddress() {
-    }
+public class Acer extends Computer implements Person,People {
 
-    public void printPhoneNumber(){
+    @Override
+    void printInfo(String name) {
 
     }
 
@@ -13,12 +11,7 @@ public class Acer extends Computer implements Person,Room{
     }
 
     @Override
-    public void showAgg() {
+    public void showCity() {
 
-    }
-
-    @Override
-    public void showFirstName() {
-        Person.super.showFirstName();
     }
 }

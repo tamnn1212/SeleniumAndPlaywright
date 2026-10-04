@@ -1,4 +1,4 @@
-public interface Person {
+public interface People {
     // interface mac dinh là abstract method
     public void showName();
     public abstract void showCity();
