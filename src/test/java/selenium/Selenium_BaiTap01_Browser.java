@@ -4,9 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -14,36 +12,33 @@ import java.util.Objects;
 public class Selenium_BaiTap01_Browser {
     WebDriver driver;
 
-    @BeforeTest
+    @BeforeClass
     void setUp() {
         driver = new FirefoxDriver();
         driver.get("http://live.techpanda.org/");
         driver.manage().window().maximize();
     }
-    @Test
-    public void TC_01_VerifyUrl() {
+    @BeforeMethod
+    public void beforeMethod() {
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
+    }
+    @Test
+    public void TC_01_VerifyUrl() {
         String urlLogin = driver.getCurrentUrl();
         Assert.assertEquals(urlLogin,"http://live.techpanda.org/index.php/customer/account/login/");
-
         driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
         String urlRegister = driver.getCurrentUrl();
         Assert.assertEquals(urlRegister,"http://live.techpanda.org/index.php/customer/account/create/");
     }
     @Test
     public void TC_02_VerifyTitle() {
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
-        driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
-
         Assert.assertEquals(driver.getTitle(),"Customer Login");
         driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
-
         Assert.assertEquals(driver.getTitle(),"Create New Customer Account");
     }
     @Test
     public void TC_03_NavigateFunction() {
-        driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
         driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
         //Verify url cua RegisterPage
         Assert.assertEquals(driver.getCurrentUrl(),"http://live.techpanda.org/index.php/customer/account/create/");
@@ -57,7 +52,6 @@ public class Selenium_BaiTap01_Browser {
     }
     @Test
     public void TC_04_getPageSourceCode() {
-        driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
         Assert.assertTrue(Objects.requireNonNull(driver.getPageSource()).contains("My Account"));
         driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
         Assert.assertTrue(Objects.requireNonNull(driver.getPageSource()).contains("Create New Customer Account"));
