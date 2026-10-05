@@ -27,21 +27,20 @@ public class Selenium_BaiTap01_RegisterMailchip {
                 new WebDriverWait(driver, Duration.ofSeconds(10));
 
         email = wait.until(
-                ExpectedConditions.elementToBeClickable(By.id("myAcc"))
+                ExpectedConditions.elementToBeClickable(new By.ByCssSelector("input#email"))
         );
 
         username = wait.until(
-                ExpectedConditions.elementToBeClickable(By.id("new_username"))
+                ExpectedConditions.elementToBeClickable(new By.ByCssSelector("input#new_username"))
         );
 
         password = wait.until(
-                ExpectedConditions.elementToBeClickable(By.id("new_password"))
+                ExpectedConditions.elementToBeClickable(new By.ByCssSelector("input#new_password"))
         );
     }
 
     @Test
-    public void TC_01_passwordOnlyNumber() throws InterruptedException {
-        Thread.sleep(5000);
+    public void TC_01_onlyNumber() throws InterruptedException {
         email.click();
         email.clear();
         email.sendKeys("ngthitamth@gmail.com");
@@ -49,21 +48,19 @@ public class Selenium_BaiTap01_RegisterMailchip {
         password.click();
         password.clear();
         password.sendKeys("123");
-        //Verify
-        //1. Cho cho lay dc phan tu complete
-        Thread.sleep(6000);
-        WebElement mess = driver.findElement(By.xpath("//li[contains(@class,'number-char') and contains(@class,'completed')]"));
-       // Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)","Pass!");
-        try {
-            Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)");
-            System.out.println("TC_01: Pass!");
-        } catch (AssertionError e) {
-            System.out.println("TC_01: Fail!");
-            throw new RuntimeException(e);
-        }
+        //Verify bang class (completed)
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        wait.until(ExpectedConditions.attributeContains(
+//                By.xpath("//li[contains(@class,'number-char')]"), "class", "completed"
+//        ));
+//        Assert.assertTrue(mess.getAttribute("class").contains("completed"));
+
+        WebElement mess = driver.findElement(By.xpath("//li[contains(@class,'number-char')]"));
+        Thread.sleep(1000);
+        Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
     }
     @Test
-    public void TC_02_onlyLowerChar() throws InterruptedException {
+    public void TC_02_addLowerChar() throws InterruptedException {
         email.click();
         email.clear();
         email.sendKeys("ngthitamth@gmail.com");
@@ -72,22 +69,14 @@ public class Selenium_BaiTap01_RegisterMailchip {
         password.clear();
         password.sendKeys("123abc");
 
-        Thread.sleep(6000);
-        WebElement mess = driver.findElement(By.xpath("//li[contains(@class,'lowercase-char') and contains(@class,'completed')]"));
-        WebElement mess2 = driver.findElement(By.xpath("//li[contains(@class,'number-char') and contains(@class,'completed')]"));
-
-        // Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)","Pass!");
-        try {
-            Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)");
-            Assert.assertEquals(mess2.getCssValue("color"),"rgb(0, 133, 71)");
-            System.out.println("TC_02: Pass!");
-        } catch (AssertionError e) {
-            System.out.println("TC_02: Fail!");
-            throw new RuntimeException(e);
-        }
+        WebElement mess = driver.findElement(By.xpath("//li[contains(@class,'lowercase-char')]"));
+        WebElement mess2 = driver.findElement(By.xpath("//li[contains(@class,'number-char')]"));
+        Thread.sleep(2000);
+        Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
+        Assert.assertEquals(mess2.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
     }
     @Test
-    void TC_03_nhapThemChuHoa() throws InterruptedException {
+    void TC_03_addUpperChar() throws InterruptedException {
         email.click();
         email.clear();
         email.sendKeys("ngthitamth@gmail.com");
@@ -96,23 +85,18 @@ public class Selenium_BaiTap01_RegisterMailchip {
         password.clear();
         password.sendKeys("1Aa");
 
-        Thread.sleep(6000);
-        WebElement mess = driver.findElement(By.xpath("//li[contains(@class,'lowercase-char') and contains(@class,'completed')]"));
-        WebElement mess2 = driver.findElement(By.xpath("//li[contains(@class,'number-char') and contains(@class,'completed')]"));
-        WebElement mess3 = driver.findElement(By.xpath("//li[contains(@class,'uppercase-char') and contains(@class,'completed')]"));
-        // Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)","Pass!");
-        try {
-            Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)");
-            Assert.assertEquals(mess3.getCssValue("color"),"rgb(0, 133, 71)");
-            Assert.assertEquals(mess2.getCssValue("color"),"rgb(0, 133, 71)");
-            System.out.println("TC_03: Pass!");
-        } catch (AssertionError e) {
-            System.out.println("TC_03: Fail!");
-            throw new RuntimeException(e);
-        }
+        Thread.sleep(2000);
+
+        WebElement mess = driver.findElement(By.xpath("//li[contains(@class,'lowercase-char')]"));
+        WebElement mess2 = driver.findElement(By.xpath("//li[contains(@class,'number-char')]"));
+        WebElement mess3 = driver.findElement(By.xpath("//li[contains(@class,'uppercase-char')]"));
+
+        Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
+        Assert.assertEquals(mess2.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
+        Assert.assertEquals(mess3.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
     }
     @Test
-    void TC_04_nhapThemKyTuDacBiet() throws InterruptedException {
+    void TC_04_addSpecialChar() throws InterruptedException {
         email.click();
         email.clear();
         email.sendKeys("ngthitamth@gmail.com");
@@ -121,29 +105,20 @@ public class Selenium_BaiTap01_RegisterMailchip {
         password.clear();
         password.sendKeys("1Aa@");
 
-        Thread.sleep(6000);
-        WebElement mess = driver.findElement(By.xpath("//li[contains(@class,'lowercase-char') and contains(@class,'completed')]"));
-        WebElement mess2 = driver.findElement(By.xpath("//li[contains(@class,'number-char') and contains(@class,'completed')]"));
-        WebElement mess3 = driver.findElement(By.xpath("//li[contains(@class,'uppercase-char') and contains(@class,'completed')]"));
+        Thread.sleep(2000);
+        WebElement mess = driver.findElement(By.xpath("//li[contains(@class,'lowercase-char')]"));
+        WebElement mess2 = driver.findElement(By.xpath("//li[contains(@class,'number-char')]"));
+        WebElement mess3 = driver.findElement(By.xpath("//li[contains(@class,'uppercase-char')]"));
+        WebElement mess4 = driver.findElement(By.xpath("//li[contains(@class,'special-char')]"));
 
-        WebElement mess4 = driver.findElement(By.xpath("//li[contains(@class,'special-char') and contains(@class,'completed')]"));
 
-
-        // Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)","Pass!");
-        try {
-            Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)");
-            Assert.assertEquals(mess3.getCssValue("color"),"rgb(0, 133, 71)");
-            Assert.assertEquals(mess2.getCssValue("color"),"rgb(0, 133, 71)");
-            Assert.assertEquals(mess4.getCssValue("color"),"rgb(0, 133, 71)");
-
-            System.out.println("TC_04: Pass!");
-        } catch (AssertionError e) {
-            System.out.println("TC_04: Fail!");
-            throw new RuntimeException(e);
-        }
+        Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
+        Assert.assertEquals(mess2.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
+        Assert.assertEquals(mess3.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
+        Assert.assertEquals(mess4.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
     }
     @Test
-    void TC_05_ThemDKLonHon8KT() throws InterruptedException {
+    void TC_05_addMoreThan8() throws InterruptedException {
         email.click();
         email.clear();
         email.sendKeys("ngthitamth@gmail.com");
@@ -153,26 +128,18 @@ public class Selenium_BaiTap01_RegisterMailchip {
         password.sendKeys("ABC123abc@");
 
         Thread.sleep(6000);
-        WebElement mess = driver.findElement(By.xpath("//li[contains(@class,'lowercase-char') and contains(@class,'completed')]"));
-        WebElement mess2 = driver.findElement(By.xpath("//li[contains(@class,'number-char') and contains(@class,'completed')]"));
-        WebElement mess3 = driver.findElement(By.xpath("//li[contains(@class,'uppercase-char') and contains(@class,'completed')]"));
+        WebElement mess = driver.findElement(By.xpath("//li[contains(@class,'lowercase-char')]"));
+        WebElement mess2 = driver.findElement(By.xpath("//li[contains(@class,'number-char')]"));
+        WebElement mess3 = driver.findElement(By.xpath("//li[contains(@class,'uppercase-char')]"));
+        WebElement mess4 = driver.findElement(By.xpath("//li[contains(@class,'special-char')]"));
+        WebElement mess5 = driver.findElement(By.xpath("//li[contains(@class,'8-char')]"));
 
-        WebElement mess4 = driver.findElement(By.xpath("//li[contains(@class,'special-char') and contains(@class,'completed')]"));
-        WebElement mess5 = driver.findElement(By.xpath("//li[contains(@class,'8-char') and contains(@class,'completed')]"));
+        Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
+        Assert.assertEquals(mess2.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
+        Assert.assertEquals(mess3.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
+        Assert.assertEquals(mess4.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
+        Assert.assertEquals(mess5.getCssValue("color"),"rgb(0, 133, 71)","Fail!");
 
-
-        // Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)","Pass!");
-        try {
-            Assert.assertEquals(mess.getCssValue("color"),"rgb(0, 133, 71)");
-            Assert.assertEquals(mess3.getCssValue("color"),"rgb(0, 133, 71)");
-            Assert.assertEquals(mess2.getCssValue("color"),"rgb(0, 133, 71)");
-            Assert.assertEquals(mess4.getCssValue("color"),"rgb(0, 133, 71)");
-            Assert.assertEquals(mess5.getCssValue("color"),"rgb(0, 133, 71)");
-            System.out.println("TC_04: Pass!");
-        } catch (AssertionError e) {
-            System.out.println("TC_04: Fail!");
-            throw new RuntimeException(e);
-        }
     }
     @AfterMethod
     public void close() {

@@ -61,9 +61,8 @@ public class Selenium_BaiTap01_Login {
         driver.findElement(By.cssSelector("button#send2")).click();
 
         WebElement passErr = driver.findElement(By.xpath("//input[@id='pass']/following-sibling::div[@class='validation-advice']"));
-        Assert.assertEquals(passErr.getText(), "Please enter 6 or more characters without leading or trailing spaces.");
+        Assert.assertEquals(passErr.getText(), "Please enter 6 or more characters without leading or trailing spaces","Fail");
         System.out.println("Pass");
-
     }
     @Test
     public void TC_04_LoginWithIncorrectInfo() {
