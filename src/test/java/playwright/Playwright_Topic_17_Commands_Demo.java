@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 import java.nio.file.Path;
 
-public class Playwright_Topic_17_Commands_Demo {
+public class  Playwright_Topic_17_Commands_Demo {
     Browser browser;
     Page page;
     Playwright playwright;
@@ -18,6 +18,8 @@ public class Playwright_Topic_17_Commands_Demo {
         page = browser.newPage();
         BrowserType browserType = playwright.chromium();
         System.out.println("chrome path: " + browserType.executablePath());
+        System.out.println("chrome path: " + browserType.name());
+
     }
     @Test
     void TestDemo() {

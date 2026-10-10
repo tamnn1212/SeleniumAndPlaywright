@@ -1,15 +1,22 @@
 package javaBasic;
 
-public class Topic_03_Keywords {
-    // - Bien
-        // 1 - non-static
+import javaKeyword.Computer;
 
-        // 2 - static
+public class Topic_03_KeyWords extends Computer {
+    Computer com1;
+    public void showMainName() {
+        // Doi voi lop ke thua co the su dung luon ma k can new lop
+        System.out.println(mainName);
+        showLcdName();
+    }
+    public static void main(String[] args) {
 
-        // 3 - final
-
-        // 4 - Biến toàn cục và biến cục bộ
-
-    //
-
+    }
+    // Khong the overide ham final
+//    public int printPi() {
+//    }
+    // abstract can phai ghi de
+    public void printInfo(String name){
+        System.out.println(name);
+    }
 }

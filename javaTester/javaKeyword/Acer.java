@@ -1,17 +1,11 @@
-public class Acer extends Computer implements Person,People {
+package javaKeyword;
+
+import javaKeyword.Computer;
+
+public class Acer extends Computer {
 
     @Override
-    void printInfo(String name) {
-
-    }
-
-    @Override
-    public void showName() {
-
-    }
-
-    @Override
-    public void showCity() {
+    protected void printInfo(String name) {
 
     }
 }

@@ -4,6 +4,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
 
 import javax.swing.text.html.Option;
@@ -83,6 +85,13 @@ public class Selenium_Topic_13_Commands {
         //--
         webElement.submit();
 
+        // Click
+        new Actions(driver).click();
+        new Actions(driver).doubleClick(webElement).perform();
+        // select
+        new Select(webElement).selectByValue("");
+        new Select(webElement).selectByVisibleText("");
+        new Actions(driver).dragAndDrop(driver.findElement(By.xpath("//*[@id='content']")), webElement).perform();
     }
     @Test
     public void TC_03() {

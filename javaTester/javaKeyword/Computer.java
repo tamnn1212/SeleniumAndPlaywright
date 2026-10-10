@@ -1,3 +1,5 @@
+package javaKeyword;
+
 public abstract class Computer {
     // Biến - variable / properties
     //1. - Bien non-static
@@ -49,7 +51,7 @@ public abstract class Computer {
         return (int) 3.14;
     }
     // ham abstract - Bat buoc phai viet lai
-    abstract void printInfo(String name);
+    protected abstract void printInfo(String name);
     public  void showLcdName() {
     }
 
