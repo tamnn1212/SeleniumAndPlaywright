@@ -17,6 +17,12 @@ public class Selenium_Topic_07_Locator {
     @Test
     public void TC_01_ID() {
         driver.findElement(By.cssSelector(""));
+
+        // web driver
+        driver.findElement(By.cssSelector(""));
+        // web element
+        // tim cha sau do tim con
+        driver.findElement(By.cssSelector("div.footer")).findElement(By.xpath("//a[@title='My Account']"));
     }
 
     @Test
