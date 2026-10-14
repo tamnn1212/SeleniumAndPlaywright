@@ -2,14 +2,20 @@ package playwright;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
+import com.microsoft.playwright.options.BoundingBox;
 import com.microsoft.playwright.options.Margin;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
@@ -20,7 +26,8 @@ public class Playwright_Topic_20_Commands_Locator {
     Playwright playwright;
     BrowserType browserType;
     BrowserContext browserContext;
-    Locator locator,row, dataRow, checkedRow, lastToast,inputText,button,checkbox, textarea;
+    Locator locator,row, dataRow, checkedRow, lastToast,inputText,button,checkbox, textarea, table, selectBox;
+    APIResponse response;
     @BeforeClass
     public void beforeClass(){
         // Page tuong duong ( selenium web-element)
@@ -86,6 +93,52 @@ public class Playwright_Topic_20_Commands_Locator {
         inputText.dragTo(row);
 
         textarea.inputValue();
+
+
+        // --- topic 21
+        List<String> arryList = page.locator("//tr/td[3]").allTextContents(); // Lay toan bo text cua hang or cot
+        Assert.assertTrue(arryList.contains("Tam"));
+
+        // Selenium
+        WebDriver driver = new FirefoxDriver(); // khi khai bao 1 bien local can khoi tai luon
+        List<WebElement> listElement = driver.findElements(By.xpath("//tr/td[3]"));
+        List<String> listText = new ArrayList<>();
+        for (WebElement e:listElement) {
+            listText.add(e.getText());
+        }
+        Assert.assertTrue(listText.contains("Tam"));
+        page.locator("").count(); // so luong locator maching duoc
+        BoundingBox inputBox =  inputText.boundingBox();
+        System.out.println("height:" + inputBox.height + "width: " + inputBox.width);
+        selectBox = page.locator(""); selectBox.isChecked();
+    }
+    @Test
+    void TC_03_() {
+        // Assertion
+        // page
+        assertThat(page).hasTitle(".com"); // doi title trang khop
+        assertThat(page).hasURL("///"); // doi url khop
+        // api
+        assertThat(response).isOK();
+        // locator
+
+        assertThat(page.locator("div.value checked")).isVisible(); // cho cho den khi phan tu duoc hien thi
+        assertThat(page.locator("")).isHidden(); // cho cho den khi phan tu an
+
+        assertThat(page.locator("div.value checked")).isEnabled(); // cho cho den khi phan tu enable
+        assertThat(page.locator("")).isDisabled(); // cho cho den khi phan tu disable
+
+        assertThat(inputText).isEditable(); // cho den khi ptu co the edit
+        assertThat(textarea).isEmpty(); // cho den khi phan tu rong
+        assertThat(page.locator("div.value")).hasClass("checked"); // cho cho den khi phan tu enable
+
+        assertThat(button).hasAttribute("color","231");
+        assertThat(inputText).hasCount(3);
+
+        inputText.fill("123");
+        assertThat(inputText).hasValue("123");
+
+        assertThat(selectBox).not().hasValue("Map");
     }
     @AfterClass
     public void afterClass(){
