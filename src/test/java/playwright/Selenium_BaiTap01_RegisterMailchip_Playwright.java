@@ -4,6 +4,7 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.assertions.LocatorAssertions;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -25,7 +26,10 @@ public class Selenium_BaiTap01_RegisterMailchip_Playwright {
         page.navigate("https://login.mailchimp.com/signup/");
         page.getByText("Business email").fill("ngthitamth@gmail.com");
         page.getByText("Password", new Page.GetByTextOptions().setExact(true)).fill("123");
-        assertThat(page.getByText("One number")).hasCSS("color","rgb(0, 133, 71)");
+        assertThat(page.getByText("One number")).hasCSS("color","rgb(0, 133, 71)",
+                new LocatorAssertions.HasCSSOptions().setTimeout(10000));
+        assertThat(page.getByText("One number")).isVisible();
+
     }
     @Test
     void TC_02_addLowerChar() {
@@ -63,8 +67,8 @@ public class Selenium_BaiTap01_RegisterMailchip_Playwright {
     }
     @AfterClass
     public void afterClass(){
-        //browser.close();
-        //playwright.close();
+        browser.close();
+        playwright.close();
     }
 
 }
