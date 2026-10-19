@@ -1,4 +1,4 @@
-package playwright;
+package selenium;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -42,10 +42,41 @@ public class Selenium_Topic_22_TextBox_TextArea {
         Assert.assertTrue(isWaiting());
 
         // step 05: Nhap cac thong tin hop le
-        driver.findElement(By.cssSelector("input.orangehrm-firstname")).sendKeys("");
-        driver.findElement(By.cssSelector("input.orangehrm-middlename")).sendKeys("");
-        driver.findElement(By.cssSelector("input.orangehrm-lastname")).sendKeys("");
-        driver.findElement(By.cssSelector("//label[text()='Employee Id']/parent::div/following-sibling::div/input")).sendKeys("");
+        driver.findElement(By.cssSelector("input.orangehrm-firstname")).sendKeys("Rebecca");
+        driver.findElement(By.cssSelector("input.orangehrm-middlename")).sendKeys("Patricia");
+        driver.findElement(By.cssSelector("input.orangehrm-lastname")).sendKeys("Armstrong");
+        String employID = driver.findElement(By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div/input"))
+                .getDomProperty("value")
+        ;
+        //driver.findElement(By.xpath("//button[text()=' Save ']")).click();
+        driver.findElement(By.xpath("//button[contains(string(),'Save')]")).click();
+        //Assert.assertTrue(driver.findElement(By.cssSelector("p.oxd-text--toast-message")).isDisplayed());
+        Assert.assertTrue(isWaiting());
+
+        // Verify information
+
+        Assert.assertEquals(
+                driver.findElement(By.name("firstName")).getDomProperty("value"),
+                "Rebecca"
+        );
+        Assert.assertEquals(
+                driver.findElement(By.name("lastName")).getDomProperty("value"),
+                "Armstrong"
+        );
+        Assert.assertEquals(
+                driver.findElement(By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div/input"))
+                        .getDomProperty("value"),
+                employID
+        );
+        driver.findElement(By.xpath("//a[text()='Immigration']")).click();
+        Assert.assertTrue(isWaiting());
+        driver.findElement(By.xpath("//h6[text()='Assigned Immigration Records']/following-sibling::button")).click();
+        driver.findElement(By.xpath("//label[text()='Number']/parent::div/following-sibling::div/input"))
+                .sendKeys("032514587");
+        driver.findElement(By.xpath("//label[text()='Comments']/parent::div/following-sibling::div/textarea"))
+                .sendKeys("032514587 20/10");
+
+        driver.findElement(By.xpath("//button[contains(string(),'Save')]")).click();
     }
 
     // function

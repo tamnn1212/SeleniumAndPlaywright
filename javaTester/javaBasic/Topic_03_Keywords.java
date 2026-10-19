@@ -1,5 +1,5 @@
-public class Topic_03_KeyWords extends Computer{
-    Computer com1;
+abstract class Topic_03_KeyWords extends javaKeyword.Computer {
+    javaKeyword.Computer com1;
     public void showMainName() {
         // Doi voi lop ke thua co the su dung luon ma k can new lop
         System.out.println(mainName);
@@ -9,10 +9,10 @@ public class Topic_03_KeyWords extends Computer{
 
     }
     // Khong the overide ham final
-    public int printPi() {
-    }
+//    public int printPi() {
+//    }
     // abstract can phai ghi de
-    void printInfo(String name){
-        System.out.println(name);
-    }
+//    void printInfo(String name){
+//        System.out.println(name);
+//    }
 }
