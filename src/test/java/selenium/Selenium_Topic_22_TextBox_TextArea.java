@@ -43,7 +43,7 @@ public class Selenium_Topic_22_TextBox_TextArea {
 
         // step 05: Nhap cac thong tin hop le
         driver.findElement(By.cssSelector("input.orangehrm-firstname")).sendKeys("Rebecca");
-        driver.findElement(By.cssSelector("input.orangehrm-middlename")).sendKeys("Patricia");
+        //driver.findElement(By.cssSelector("input.orangehrm-middlename")).sendKeys("Patricia");
         driver.findElement(By.cssSelector("input.orangehrm-lastname")).sendKeys("Armstrong");
         String employID = driver.findElement(By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div/input"))
                 .getDomProperty("value")
@@ -74,9 +74,21 @@ public class Selenium_Topic_22_TextBox_TextArea {
         driver.findElement(By.xpath("//label[text()='Number']/parent::div/following-sibling::div/input"))
                 .sendKeys("032514587");
         driver.findElement(By.xpath("//label[text()='Comments']/parent::div/following-sibling::div/textarea"))
-                .sendKeys("032514587 20/10");
+                .sendKeys("032514587\n" +
+                        "20/10");
 
         driver.findElement(By.xpath("//button[contains(string(),'Save')]")).click();
+
+        // Verify hien thi dung thong tin
+        Assert.assertTrue(isWaiting());
+        // Click icon edit
+        driver.findElement(By.cssSelector("button.oxd-table-cell-action-space i.bi-pencil-fill")).click();
+        // Verify
+        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Number']/parent::div/following-sibling::div/input")).getDomProperty("value"),
+                "032514587");
+
+        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Comments']/parent::div/following-sibling::div/textarea")).getDomProperty("value"),
+                "032514587\n" + "20/10");
     }
 
     // function
