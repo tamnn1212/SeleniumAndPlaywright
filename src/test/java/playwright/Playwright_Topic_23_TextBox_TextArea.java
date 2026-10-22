@@ -35,7 +35,7 @@ public class Playwright_Topic_23_TextBox_TextArea {
         page.locator("input[name='username']").fill("Admin");
         page.locator("input[name='password']").fill("admin123");
         page.locator("button.orangehrm-login-button").click();
-       // page.locator("button.orangehrm-login-button").click();
+        // page.locator("button.orangehrm-login-button").click();
         page.getByText("PIM").click();
         page.getByText("Add Employee").click();
         // Nhap thong tin hop le
@@ -57,8 +57,15 @@ public class Playwright_Topic_23_TextBox_TextArea {
                 .fill("032514587");
 //        page.locator("//label[text()='Comments']/parent::div/following-sibling::div/textarea")
 //                .click();
-        page.getByPlaceholder("Type Comments here").fill("Armstrong");
-        }
+        page.getByPlaceholder("Type Comments here").fill("032514587 commant");
+
+        page.locator("//button[contains(string(),'Save')]").click();
+
+        // Verify
+        page.locator("button.oxd-table-cell-action-space i.bi-pencil-fill").click();
+        assertThat(page.locator("//label[text()='Number']/parent::div/following-sibling::div/input")).hasValue("032514587");
+        assertThat(page.locator("//label[text()='Comments']/parent::div/following-sibling::div/textarea")).hasValue("032514587 commant");
+    }
     @AfterClass
     public void afterClass(){
         browser.close();

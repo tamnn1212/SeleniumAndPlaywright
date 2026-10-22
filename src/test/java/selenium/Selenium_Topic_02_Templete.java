@@ -8,6 +8,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
+
 public class Selenium_Topic_02_Templete {
     WebDriver driver;
     @BeforeClass
@@ -15,6 +17,8 @@ public class Selenium_Topic_02_Templete {
         driver = new FirefoxDriver();
         driver.get("");
         driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+
     }
     @Test
     public void TC_01() {
