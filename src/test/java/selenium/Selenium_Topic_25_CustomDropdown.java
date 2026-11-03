@@ -36,6 +36,34 @@ public class Selenium_Topic_25_CustomDropdown {
                 "Slower"
         );
     }
+    @Test
+    public void TC_02() {
+        driver.get("https://react.semantic-ui.com/maximize/dropdown-example-selection/");
+        selectDropdownItem("div.dropdown","div.item span.text","Elliot Fu");
+        Assert.assertEquals(driver
+                        .findElement(By.cssSelector("div.divider")).getText(),
+                "Elliot Fu"
+        );
+    }
+    @Test
+    public void TC_03_Editable() {
+        driver.get("https://react.semantic-ui.com/maximize/dropdown-example-search-selection/");
+        editableDropdownItem("input.search","div.item span.text","Afghanistan");
+        Assert.assertEquals(driver
+                        .findElement(By.cssSelector("div.divider")).getText(),
+                "Afghanistan"
+        );
+    }
+    @Test
+    public void TC_04_Huawei() {
+        driver.get("https://id5.cloud.huawei.com/CAS/portal/userRegister/regbyemail.html");
+        driver.findElement(By.cssSelector("div.hwid-dropInpunt")).click();
+        editableDropdownItem("input[ht='input_emailregister_search']","span.list-item-text","Argentina");
+        Assert.assertEquals(driver
+                        .findElement(By.cssSelector("div.divider")).getText(),
+                "Argentina"
+        );
+    }
     private void selectDropdownItem(String parentLct, String childLct, String textItem) {
         // tim locator de mo ra dropdown
         driver.findElement(By.cssSelector(parentLct)).click();
@@ -64,9 +92,21 @@ public class Selenium_Topic_25_CustomDropdown {
             System.out.println("Khong tim thay option" + textItem);
         }
     }
-
+    private void editableDropdownItem(String parentLct, String childLct, String textItem) {
+        // tim locator de mo ra dropdown
+        driver.findElement(By.cssSelector(parentLct)).clear(); driver.findElement(By.cssSelector(parentLct)).click();
+        List<WebElement> lstOption =  new WebDriverWait(driver, Duration.ofSeconds(15))
+                .until(ExpectedConditions
+                        .presenceOfAllElementsLocatedBy(By.cssSelector(childLct)));
+        boolean found = false;
+        for (WebElement i:lstOption) {
+            String dropDownText = i.getText();
+            if (dropDownText.equals(textItem)) {i.click();found = true;break;}
+        }
+        if (found!=true) {System.out.println("Khong tim thay option" + textItem);}
+    }
     @AfterClass
     public void afterClass() {
-        driver.quit();
+        //driver.quit();
     }
 }
