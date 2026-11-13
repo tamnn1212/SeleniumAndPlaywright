@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 
 public class Selenium_Topic_27_Button {
     WebDriver driver;
@@ -22,7 +23,6 @@ public class Selenium_Topic_27_Button {
         driver = new FirefoxDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-
     }
     @Test
     public void TC_01_HandleBtn() {
@@ -54,16 +54,19 @@ public class Selenium_Topic_27_Button {
     public void TC_02_DefaultCheckBoxAndRdBtn() {
         // Checkbox
         driver.get("https://demos.telerik.com/kendo-ui/checkbox/index");
-        By Dual_zone_air_conditioningOption = By.xpath("//label[text()='Dual-zone air conditioning']/preceding-sibling::span/input");
-        if(!driver.findElement(Dual_zone_air_conditioningOption).isSelected()) {
-            driver.findElement(Dual_zone_air_conditioningOption).click();
+        By DualOption = By.xpath("//label[normalize-space()='Dual-zone air conditioning']/preceding-sibling::span/input");
+
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(DualOption));
+        if(!driver.findElement(DualOption).isSelected()) {
+            driver.findElement(DualOption).click();
         }
-        Assert.assertTrue(driver.findElement(Dual_zone_air_conditioningOption).isSelected());
-        driver.findElement(Dual_zone_air_conditioningOption).click();
-        Assert.assertFalse(driver.findElement(Dual_zone_air_conditioningOption).isSelected());
+        Assert.assertTrue(driver.findElement(DualOption).isSelected());
+        driver.findElement(DualOption).click();
+        Assert.assertFalse(driver.findElement(DualOption).isSelected());
         // radiobtn
         driver.get("https://demos.telerik.com/kendo-ui/radiobutton/index");
         By petrol2 = By.xpath("//label[text()='2.0 Petrol, 147kW']/preceding-sibling::span/input");
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(petrol2));
         if(!driver.findElement(petrol2).isSelected()) {
             driver.findElement(petrol2).click();
         }
@@ -87,7 +90,7 @@ public class Selenium_Topic_27_Button {
         }
         // chon 1 so option
         for (WebElement i: lst) {
-            if(!i.isSelected()&&i.getDomProperty("value").equals("Gallstones")) {
+            if(!i.isSelected()&& Objects.equals(i.getDomProperty("value"), "Gallstones")) {
                 i.click();
             }
         }
