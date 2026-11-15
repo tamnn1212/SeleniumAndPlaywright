@@ -95,6 +95,19 @@ public class Selenium_Topic_27_Button {
             }
         }
     }
+    // Topic 28 Radio Btn
+    @Test
+    public void TC_04_RadioBtn() {
+        driver.get("https://demos.telerik.com/kendo-ui/radiobutton/index");
+        // Chon radion
+        By rdBtn = By.xpath("//label[text()='2.0 Petrol, 147kW']/preceding-sibling::span/input");
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(rdBtn));
+        driver.findElement(rdBtn).click();
+        // Kiem tra
+        Assert.assertTrue(driver.findElement(rdBtn).isSelected());
+        // Chon qua item khac
+        driver.findElement(By.xpath("//label[text()='1.6 Diesel, 77kW']/preceding-sibling::span/input")).click();
+    }
     @AfterClass
     public void afterClass() {
         //driver.quit();
