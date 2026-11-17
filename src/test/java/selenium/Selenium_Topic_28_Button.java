@@ -16,7 +16,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
-public class Selenium_Topic_27_Button {
+public class Selenium_Topic_28_Button {
     WebDriver driver;
     @BeforeClass
     public void beforeClass() {
@@ -37,7 +37,7 @@ public class Selenium_Topic_27_Button {
                 driver.findElement(btnDangKyBy).isEnabled());
         Assert.assertEquals(
                 Color.fromString(
-                driver.findElement(btnDangKyBy).getCssValue("background-color")).asHex().toUpperCase(),
+                        driver.findElement(btnDangKyBy).getCssValue("background-color")).asHex().toUpperCase(),
                 "#000000");
         // Dien tt hop le
         driver.findElement(By.cssSelector("input#login_username")).sendKeys("0358892524");
@@ -63,7 +63,7 @@ public class Selenium_Topic_27_Button {
         Assert.assertTrue(driver.findElement(DualOption).isSelected());
         driver.findElement(DualOption).click();
         Assert.assertFalse(driver.findElement(DualOption).isSelected());
-        // radiobtn
+        // radioBtn
         driver.get("https://demos.telerik.com/kendo-ui/radiobutton/index");
         By petrol2 = By.xpath("//label[text()='2.0 Petrol, 147kW']/preceding-sibling::span/input");
         new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(petrol2));
@@ -79,7 +79,7 @@ public class Selenium_Topic_27_Button {
         List<WebElement> lst = driver.findElements(By.cssSelector("input.form-checkbox"));
         for (WebElement i:lst) {
             if (!i.isSelected()) {
-            i.click(); }
+                i.click(); }
             Assert.assertTrue(i.isSelected());
         }
         // Un-check
