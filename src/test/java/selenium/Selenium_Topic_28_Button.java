@@ -1,6 +1,7 @@
 package selenium;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -18,9 +19,11 @@ import java.util.Objects;
 
 public class Selenium_Topic_28_Button {
     WebDriver driver;
+    JavascriptExecutor jsExecutor;
     @BeforeClass
     public void beforeClass() {
         driver = new FirefoxDriver();
+        jsExecutor = (JavascriptExecutor) driver;
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
     }
@@ -94,6 +97,46 @@ public class Selenium_Topic_28_Button {
                 i.click();
             }
         }
+    }
+
+    @Test
+    public void TC_04_RadioBtn  () {
+        driver.get("https://demos.telerik.com/kendo-ui/radiobutton/index");
+        By petrol2 = By.xpath("//label[text()='2.0 Petrol, 147kW']/preceding-sibling::span/input");
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(petrol2));
+        if(!driver.findElement(petrol2).isSelected()) {
+            driver.findElement(petrol2).click();
+        }
+        Assert.assertTrue(driver.findElement(petrol2).isSelected());
+        // Bo chon : => click sang rdBtn khac
+    }
+    // Custom radio btn
+
+    @Test
+    public void TC_05_Ubuntu() {
+        driver.get("https://login.ubuntu.com/");
+        By idNewUser = By.cssSelector("input#id_new_user");
+        By idAcceptTos = By.cssSelector("input#id_accept_tos");
+        // Chon
+        jsExecutor.executeScript("arguments[0].click();",driver.findElement(idNewUser));
+        // Verify
+        Assert.assertTrue(driver.findElement(idNewUser).isSelected());
+        if(!driver.findElement(idAcceptTos).isSelected()){
+            jsExecutor.executeScript("arguments[0].click();",driver.findElement(idAcceptTos));
+        }
+        Assert.assertTrue(driver.findElement(idAcceptTos).isSelected());
+    }
+
+    @Test
+    public void TC_06_GoogleDoc() {
+        driver.get("https://docs.google.com/forms/d/e/1FAIpQLSfiypnd69zhuDkjKgqvpID9kwO29UCzeCVrGGtbNPZXQok0jA/viewform");
+        // chon
+        if(!driver.findElement(By.xpath("//div[@data-value='Cần Thơ']")).isSelected()) {
+            driver.findElement(By.xpath("//div[@data-value='Cần Thơ']")).click();
+        }
+        // Verify
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@data-value='Cần Thơ']"))
+                .getDomAttribute("aria-checked"),"true");
     }
     @AfterClass
     public void afterClass() {
