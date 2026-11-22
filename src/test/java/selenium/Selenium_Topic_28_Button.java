@@ -1,6 +1,7 @@
 package selenium;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -16,11 +17,13 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
-public class Selenium_Topic_27_Button {
+public class Selenium_Topic_28_Button {
     WebDriver driver;
+    JavascriptExecutor jsExecutor;
     @BeforeClass
     public void beforeClass() {
         driver = new FirefoxDriver();
+        jsExecutor = (JavascriptExecutor) driver;
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
     }
@@ -37,7 +40,7 @@ public class Selenium_Topic_27_Button {
                 driver.findElement(btnDangKyBy).isEnabled());
         Assert.assertEquals(
                 Color.fromString(
-                driver.findElement(btnDangKyBy).getCssValue("background-color")).asHex().toUpperCase(),
+                        driver.findElement(btnDangKyBy).getCssValue("background-color")).asHex().toUpperCase(),
                 "#000000");
         // Dien tt hop le
         driver.findElement(By.cssSelector("input#login_username")).sendKeys("0358892524");
@@ -50,6 +53,7 @@ public class Selenium_Topic_27_Button {
         Assert.assertTrue(
                 driver.findElement(btnDangKyBy).isEnabled());
     }
+    // === Checkbox and Radio Btn
     @Test
     public void TC_02_DefaultCheckBoxAndRdBtn() {
         // Checkbox
@@ -63,7 +67,7 @@ public class Selenium_Topic_27_Button {
         Assert.assertTrue(driver.findElement(DualOption).isSelected());
         driver.findElement(DualOption).click();
         Assert.assertFalse(driver.findElement(DualOption).isSelected());
-        // radiobtn
+        // radioBtn
         driver.get("https://demos.telerik.com/kendo-ui/radiobutton/index");
         By petrol2 = By.xpath("//label[text()='2.0 Petrol, 147kW']/preceding-sibling::span/input");
         new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(petrol2));
@@ -79,7 +83,7 @@ public class Selenium_Topic_27_Button {
         List<WebElement> lst = driver.findElements(By.cssSelector("input.form-checkbox"));
         for (WebElement i:lst) {
             if (!i.isSelected()) {
-            i.click(); }
+                i.click(); }
             Assert.assertTrue(i.isSelected());
         }
         // Un-check
@@ -95,18 +99,45 @@ public class Selenium_Topic_27_Button {
             }
         }
     }
-    // Topic 28 Radio Btn
+
     @Test
-    public void TC_04_RadioBtn() {
+    public void TC_04_RadioBtn  () {
         driver.get("https://demos.telerik.com/kendo-ui/radiobutton/index");
-        // Chon radion
-        By rdBtn = By.xpath("//label[text()='2.0 Petrol, 147kW']/preceding-sibling::span/input");
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(rdBtn));
-        driver.findElement(rdBtn).click();
-        // Kiem tra
-        Assert.assertTrue(driver.findElement(rdBtn).isSelected());
-        // Chon qua item khac
-        driver.findElement(By.xpath("//label[text()='1.6 Diesel, 77kW']/preceding-sibling::span/input")).click();
+        By petrol2 = By.xpath("//label[text()='2.0 Petrol, 147kW']/preceding-sibling::span/input");
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(petrol2));
+        if(!driver.findElement(petrol2).isSelected()) {
+            driver.findElement(petrol2).click();
+        }
+        Assert.assertTrue(driver.findElement(petrol2).isSelected());
+        // Bo chon : => click sang rdBtn khac
+    }
+    // Custom radio btn
+
+    @Test
+    public void TC_05_Ubuntu_CustomRadiBtn() {
+        driver.get("https://login.ubuntu.com/");
+        By idNewUser = By.cssSelector("input#id_new_user");
+        By idAcceptTos = By.cssSelector("input#id_accept_tos");
+        // Chon
+        jsExecutor.executeScript("arguments[0].click();",driver.findElement(idNewUser));
+        // Verify
+        Assert.assertTrue(driver.findElement(idNewUser).isSelected());
+        if(!driver.findElement(idAcceptTos).isSelected()){
+            jsExecutor.executeScript("arguments[0].click();",driver.findElement(idAcceptTos));
+        }
+        Assert.assertTrue(driver.findElement(idAcceptTos).isSelected());
+    }
+
+    @Test
+    public void TC_06_GoogleDoc() {
+        driver.get("https://docs.google.com/forms/d/e/1FAIpQLSfiypnd69zhuDkjKgqvpID9kwO29UCzeCVrGGtbNPZXQok0jA/viewform");
+        // chon
+        if(!driver.findElement(By.xpath("//div[@data-value='Cần Thơ']")).isSelected()) {
+            driver.findElement(By.xpath("//div[@data-value='Cần Thơ']")).click();
+        }
+        // Verify
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@data-value='Cần Thơ']"))
+                .getDomAttribute("aria-checked"),"true");
     }
     @AfterClass
     public void afterClass() {

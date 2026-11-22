@@ -1,8 +1,13 @@
 package selenium;
 
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -15,13 +20,68 @@ public class Selenium_Topic_29_Alert {
     @BeforeClass
     public void beforeClass() {
         driver = new FirefoxDriver();
-        driver.get("");
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-
     }
     @Test
     public void TC_01() {
+        driver.get("https://live.techpanda.org/");
+        driver.findElement(By.xpath("//a[text()='Mobile']")).click();
+        driver.findElement(By.xpath("//a[@title='Xperia']/following-sibling::div//a[text()='Add to Compare']"))
+                .click();
+        Assert.assertTrue(driver.findElement(By.xpath("//span[text()='The product Sony Xperia has been added to comparison list.']"))
+                .isDisplayed());
+        driver.findElement(By.xpath("//a[@title='IPhone']/following-sibling::div//a[text()='Add to Compare']")).click();
+        Assert.assertTrue(driver.findElement(By.xpath("//span[text()='The product IPhone has been added to comparison list.']"))
+                .isDisplayed());
+        driver.findElement(By.xpath("//a[@title='Samsung Galaxy']/following-sibling::div//a[text()='Add to Compare']")).click();
+        Assert.assertTrue(driver.findElement(By.xpath("//span[text()='The product Samsung Galaxy has been added to comparison list.']"))
+                .isDisplayed());
+        // clear
+        driver.findElement(By.xpath("//a[text()='Clear All']")).click();
+        alert =  new WebDriverWait(driver,Duration.ofSeconds(2))
+                .until(ExpectedConditions.alertIsPresent());
+        // switch vao alert
+        // = driver.switchTo().alert();
+        // verify text
+        Assert.assertEquals(alert.getText(), "Are you sure you would like to remove all products from your comparison?");
+        // accept
+        alert.accept();
+        // Verify mgs
+        Assert.assertTrue(driver.findElement(By.xpath("//li[@class='success-msg']//span[text()='The comparison list was cleared.']"))
+                .isDisplayed());
+    }
+    @Test
+    public void TC_02_BT09_PromptAlert() {
+        driver.get("https://automationfc.github.io/basic-form/index.html");
+        driver.findElement(By.xpath("//button[text()='Click for JS Prompt']")).click();
+        alert =  new WebDriverWait(driver,Duration.ofSeconds(2))
+                .until(ExpectedConditions.alertIsPresent());
+        Assert.assertEquals(alert.getText(),"I am a JS prompt");
+        String keyword = "Automation";
+        alert.sendKeys(keyword); alert.accept();
+        Assert.assertEquals(driver.findElement(By.cssSelector("p#result")).getText(),"You entered: " + keyword);
+        // ----
+        driver.findElement(By.xpath("//button[text()='Click for JS Alert']")).click();
+        alert =  new WebDriverWait(driver,Duration.ofSeconds(2))
+                .until(ExpectedConditions.alertIsPresent()); alert.accept();
+        Assert.assertTrue(driver.findElement(By.xpath("//p[text()='You clicked an alert successfully ']"))
+                .isDisplayed());
+    }
+    @Test
+    public void TC_03_AuthenticationAlert() {
+        driver.get("https://the-internet.herokuapp.com/");
+        WebElement basicLink = driver.findElement(By.xpath("//a[text()='Basic Auth']"));
+        String url = basicLink.getAttribute("href");
+        if (url != null) {
+            driver.get(getUrlByUserNamePass(url,"admin","admin"));
+        }
+        Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]"))
+                .isDisplayed());
+    }
+    public String getUrlByUserNamePass(String url, String username, String pass) {
+        String[] split = url.split("//"); // tach chuoi = //
+        return split[0] + "//" + username + ":" + pass + "@" + split[1] ;
     }
     @AfterClass
     public void afterClass() {

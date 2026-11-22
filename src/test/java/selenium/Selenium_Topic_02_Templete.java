@@ -15,14 +15,13 @@ public class Selenium_Topic_02_Templete {
     @BeforeClass
     public void beforeClass() {
         driver = new FirefoxDriver();
-        driver.get("");
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
     }
     @Test
     public void TC_01() {
-
+        driver.get("");
     }
     @AfterClass
     public void afterClass() {
