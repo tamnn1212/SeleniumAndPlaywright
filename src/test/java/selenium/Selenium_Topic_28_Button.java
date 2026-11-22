@@ -53,6 +53,7 @@ public class Selenium_Topic_28_Button {
         Assert.assertTrue(
                 driver.findElement(btnDangKyBy).isEnabled());
     }
+    // === Checkbox and Radio Btn
     @Test
     public void TC_02_DefaultCheckBoxAndRdBtn() {
         // Checkbox
@@ -113,7 +114,7 @@ public class Selenium_Topic_28_Button {
     // Custom radio btn
 
     @Test
-    public void TC_05_Ubuntu() {
+    public void TC_05_Ubuntu_CustomRadiBtn() {
         driver.get("https://login.ubuntu.com/");
         By idNewUser = By.cssSelector("input#id_new_user");
         By idAcceptTos = By.cssSelector("input#id_accept_tos");

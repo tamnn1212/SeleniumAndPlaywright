@@ -1,11 +1,8 @@
 package playwright;
 
 import com.microsoft.playwright.*;
-import com.microsoft.playwright.assertions.LocatorAssertions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -49,46 +46,72 @@ public class Playwright_Topic_30_Button {
     public void TC_02_DefaultCheckBoxAndRdBtn() {
         page.navigate("https://demos.telerik.com/kendo-ui/checkbox/index");
         Locator DualOption = page.locator("//label[normalize-space()='Dual-zone air conditioning']/preceding-sibling::span/input");
-        if (!DualOption.isChecked()) {
-            DualOption.click();
-        }
+        Locator RainSensorOption = page.locator("//label[normalize-space()='Dual-zone air conditioning']/preceding-sibling::span/input");
+        Locator TowbarPreparationOption = page.locator("//label[normalize-space()='Dual-zone air conditioning']/preceding-sibling::span/input");
+
+        DualOption.check();
+        RainSensorOption.setChecked(true); // check
+        Assert.assertTrue(RainSensorOption.isChecked());
         assertThat(DualOption).isChecked();
+        Assert.assertTrue(DualOption.isChecked());
         // un-check
-        DualOption.click(); assertThat(DualOption).not().isChecked();
-        // radioBtn
-        page.navigate("https://demos.telerik.com/kendo-ui/radiobutton/index");
-        Locator petrol2 = page.locator("//label[text()='2.0 Petrol, 147kW']/preceding-sibling::span/input");
-        if (!petrol2.isChecked()) {
-            petrol2.click();
-        }
-        assertThat(petrol2).isChecked();
+        DualOption.uncheck(); assertThat(DualOption).not().isChecked();
     }
 
     @Test
     public void TC_03_SelectAll() {
         page.navigate("https://automationfc.github.io/multiple-fields/");
         List<Locator> lst = page.locator("input.form-checkbox").all();
+        // Kiem tra chua duoc chon
         for (Locator i:lst) {
-            if (!i.isChecked()){
-                i.click();
-                assertThat(i).isChecked();
-            }
+                assertThat(i).not().isChecked();
+        }
+        // check toan bo va kiem tra da chọn
+        for (Locator i:lst) {
+            i.check();
+            assertThat(i).isChecked();
+
         }
         // un-check
         for (Locator i:lst) {
-            if (i.isChecked()){
-                i.click();
-                assertThat(i).not().isChecked();
-            }
+            i.setChecked(false);
+            assertThat(i).not().isChecked();
         }
         // Chon 1 so option
         for (Locator i:lst) {
             if (!i.isChecked() && i.getAttribute("value").equals("Gallstones")){
-                i.click();
+                i.check();
                 assertThat(i).isChecked();
             }
         }
     }
+    // RadioBtn
+
+    @Test
+    public void TC_04_RadioBtn() {
+        page.navigate("https://demos.telerik.com/kendo-ui/radiobutton/index");
+        Locator petrol2 = page.locator("//label[text()='2.0 Petrol, 147kW']/preceding-sibling::span/input");
+        petrol2.check();
+        assertThat(petrol2).isChecked();
+    }
+
+    // Custom Radio Btn
+
+    @Test
+    public void TC_05_Ubuntu_CustomRadiBtn() {
+        page.navigate("https://login.ubuntu.com/");
+        Locator idNewUser = page.locator("input#id_new_user");
+        Locator idAcceptTos = page.locator("input#id_new_user");
+
+        if(!idNewUser.isChecked()) {
+            idNewUser.dispatchEvent("click");
+        }
+        assertThat(idNewUser).isChecked();
+        if (!idAcceptTos.isChecked()){
+            idAcceptTos.evaluate("el => el.click()");
+        }
+    }
+
     @AfterClass
     public void afterClass(){
         browser.close();

@@ -27,7 +27,8 @@ public class Selenium_Topic_29_Alert {
     public void TC_01() {
         driver.get("https://live.techpanda.org/");
         driver.findElement(By.xpath("//a[text()='Mobile']")).click();
-        driver.findElement(By.xpath("//a[@title='Xperia']/following-sibling::div//a[text()='Add to Compare']")).click();
+        driver.findElement(By.xpath("//a[@title='Xperia']/following-sibling::div//a[text()='Add to Compare']"))
+                .click();
         Assert.assertTrue(driver.findElement(By.xpath("//span[text()='The product Sony Xperia has been added to comparison list.']"))
                 .isDisplayed());
         driver.findElement(By.xpath("//a[@title='IPhone']/following-sibling::div//a[text()='Add to Compare']")).click();
