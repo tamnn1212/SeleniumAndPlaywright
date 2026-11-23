@@ -3,6 +3,7 @@ package selenium;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -11,6 +12,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import javax.swing.*;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.List;
 
@@ -83,15 +86,79 @@ public class Selenium_Topic_32_Actions {
     public void TC_04_DoubleClick() {
         driver.get("https://automationfc.github.io/basic-form/index.html");
         // Fire fox can cuon xuong de thao tac
-        jsExecutor.executeScript("arguments[0].scrollIntoView(true);",
-                driver.findElement(By.xpath("//button[text()='Double click me']")));
+        if (driver.toString().contains("Firefox")) {
+            jsExecutor.executeScript("arguments[0].scrollIntoView(true);",
+                    driver.findElement(By.xpath("//button[text()='Double click me']")));
+        } else {
+            driver.findElement(By.xpath("//button[text()='Double click me']")).click();
+        }
         action.pause(Duration.ofSeconds(2));
         action.doubleClick(driver.findElement(By.xpath("//button[text()='Double click me']"))).perform();
         Assert.assertEquals(driver.findElement(By.cssSelector("p#demo")).getText(),"Hello Automation Guys!");
     }
+    // Topic 33 Continue Actions
+     @Test
+     public void TC_05_jQueryRightClick() {
+             driver.get("https://swisnl.github.io/jQuery-contextMenu/demo.html");
+             // contextClick : click chuot phai
+             action.contextClick(driver.findElement(By.xpath("//span[text()='right click me']"))).perform();
 
-    @AfterClass
-    public void afterClass() {
-        driver.quit();
+             Assert.assertTrue(driver.findElement(By.cssSelector("li.context-menu-icon-quit"))
+                     .isDisplayed());
+             action.moveToElement(driver.findElement(By.cssSelector("li.context-menu-icon-quit"))).perform(); action.pause(1).perform();
+             Assert.assertTrue(driver.findElement(By.cssSelector("li.context-menu-icon-quit.context-menu-visible.context-menu-hover"))
+                     .isDisplayed());
+             driver.findElement(By.cssSelector("li.context-menu-icon-quit")).click();
+             driver.switchTo().alert().accept();
+             // accept alert
+             Assert.assertFalse(driver.findElement(By.cssSelector("li.context-menu-icon-quit"))
+                 .isDisplayed());
+      }
+      @Test
+      public void TC_06_DragandDropHTML4() {
+              driver.get("https://automationfc.github.io/kendo-drag-drop/");
+              WebElement source,target;
+              source = driver.findElement(By.cssSelector("div#draggable"));
+              target = driver.findElement(By.cssSelector("div#droptarget"));
+              Assert.assertEquals(target.getText(),"Drag the small circle here.");
+              action.dragAndDrop(source,target).pause(Duration.ofSeconds(2)).perform();
+              Assert.assertEquals(target.getText(),"You did great!");
+              Assert.assertEquals(Color.fromString(
+                      target.getCssValue("background-color")).asHex().toLowerCase(),"#03a9f4");
+       }
+       @Test
+       public void TC_07_DragandDropHTML6() throws IOException {
+               driver.get("https://automationfc.github.io/drag-drop-html5/");
+//               WebElement source,target;
+//               source = driver.findElement(By.cssSelector("div#column-a"));
+//               target = driver.findElement(By.cssSelector("div#column-b"));
+//               action.clickAndHold(source)
+//                       .pause(Duration.ofSeconds(1))
+//                               .moveToElement(target).release().perform();
+//               // Hien tai k ho tro va khuyen khich keo tha voi html5
+           String js = getContentFile(System.getProperty("user.dir") +"\\DragnDrop\\DragnDrop.js");
+           //String jsContent = js +  "$(\"" + "div#column-a" + "\").simulateDragDrop({ dropTarget: \"" + "div#column-b" + "\"});";
+           jsExecutor.executeScript(js);
+           Assert.assertEquals(driver.findElement(By.cssSelector("div#column-a>header")).getText(),"B");
+        }
+     @AfterClass
+     public void afterClass() {
+            driver.quit();
+     }
+    public String getContentFile(String filePath) throws IOException {
+        Charset cs = Charset.forName("UTF-8");
+        FileInputStream stream = new FileInputStream(filePath);
+        try {
+            Reader reader = new BufferedReader(new InputStreamReader(stream, cs));
+            StringBuilder builder = new StringBuilder();
+            char[] buffer = new char[8192];
+            int read;
+            while ((read = reader.read(buffer, 0, buffer.length)) > 0) {
+                builder.append(buffer, 0, read);
+            }
+            return builder.toString();
+        } finally {
+            stream.close();
+        }
     }
 }
